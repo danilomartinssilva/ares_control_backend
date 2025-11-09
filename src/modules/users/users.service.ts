@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { UserCreatePayloadRequest } from '../dto/users';
-import { PrismaService } from '../database/prisma.service';
+import { UserCreatePayloadRequest } from '../../dto/users';
+import { PrismaService } from '../../database/prisma.service';
 import { UserUpdatePayloadRequest } from 'src/dto/users/user-update-payload.request';
 
 const userSelect = {

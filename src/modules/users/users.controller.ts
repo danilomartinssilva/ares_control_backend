@@ -1,4 +1,12 @@
-import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import {
@@ -42,5 +50,18 @@ export class UsersController {
   )
   getUsers(): Promise<UserCreateDataResponse[]> {
     return this.usersService.getUsers();
+  }
+
+  @Delete(':id')
+  @SuccessResponseDecorator({
+    type: UserCreateDataResponse,
+    summary: 'Remove um usuário existente',
+  })
+  @ErrorResponseDecorator(
+    HttpStatus.BAD_REQUEST,
+    'Bad Request: Erro ao remover o usuário',
+  )
+  deleteUser(@Param('id') id: string): Promise<UserCreateDataResponse> {
+    return this.usersService.deleteUser(id);
   }
 }

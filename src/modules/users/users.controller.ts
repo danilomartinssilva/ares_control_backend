@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
@@ -17,6 +18,7 @@ import {
   ErrorResponseDecorator,
   SuccessResponseDecorator,
 } from 'src/decorators/api-response.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Gerenciamento de Usuários')
 @Controller('users')
@@ -39,6 +41,7 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(AuthGuard('jwt'))
   @SuccessResponseDecorator({
     type: UserCreateDataResponse,
     isArray: true,
@@ -53,6 +56,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard('jwt'))
   @SuccessResponseDecorator({
     type: UserCreateDataResponse,
     summary: 'Remove um usuário existente',

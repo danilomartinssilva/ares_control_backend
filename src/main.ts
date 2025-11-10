@@ -13,6 +13,11 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.enableCors({
+    origin: 'http://localhost:4200',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
   app.useGlobalFilters(new PrismaExceptionFilter(app.getHttpAdapter()));
   const config = new DocumentBuilder()
     .setTitle('Ares API')

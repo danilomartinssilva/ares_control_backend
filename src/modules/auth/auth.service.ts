@@ -29,7 +29,7 @@ export class AuthService {
 
     return {
       token,
-      email: foundUser.email,
+      id: foundUser.id,
     };
   }
 }

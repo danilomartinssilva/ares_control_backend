@@ -40,11 +40,6 @@ Outros: Autenticação JWT, DTOs e Pipes de Validação.
 
 Para rodar o projeto localmente:
 
-Clone o repositório:
-
-git clone [https://www.youtube.com/shorts/3mMG25WHLkU](https://www.youtube.com/shorts/3mMG25WHLkU)
-cd [pasta-do-backend]
-
 
 Instale as dependências:
 

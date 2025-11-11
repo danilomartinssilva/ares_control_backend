@@ -48,7 +48,7 @@ cd [pasta-do-backend]
 
 Instale as dependências:
 
-npm install
+yarn install
 
 
 Configure o Ambiente:
@@ -56,17 +56,14 @@ Crie um arquivo .env na raiz do projeto e defina a string de conexão com o seu 
 
 DATABASE_URL="postgresql://user:password@host:port/database"
 PORT=3002
-# Adicione outras variáveis de ambiente necessárias, como chaves JWT, se aplicável.
 
 
 Execute as migrações do Prisma:
 
-npx prisma migrate dev --name init
-
+yarn prisma-init
 
 Inicie o servidor de desenvolvimento:
 
-npm run start:dev
-
+yarn start:dev
 
 O servidor estará disponível em http://localhost:3002.

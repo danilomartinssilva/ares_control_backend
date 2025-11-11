@@ -5,6 +5,7 @@ import {
   Get,
   HttpStatus,
   Param,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -19,6 +20,7 @@ import {
   SuccessResponseDecorator,
 } from 'src/decorators/api-response.decorator';
 import { AuthGuard } from '@nestjs/passport';
+import { UserUpdatePayloadRequest } from 'src/dto/users/user-update-payload.request';
 
 @ApiTags('Gerenciamento de Usuários')
 @Controller('users')
@@ -67,5 +69,40 @@ export class UsersController {
   )
   deleteUser(@Param('id') id: string): Promise<UserCreateDataResponse> {
     return this.usersService.deleteUser(id);
+  }
+
+  @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
+  @SuccessResponseDecorator({
+    type: UserCreateDataResponse,
+    summary: 'Recupera um usuário pelo ID',
+  })
+  @ErrorResponseDecorator(
+    HttpStatus.BAD_REQUEST,
+    'Bad Request: Erro ao recuperar o usuário',
+  )
+  findById(@Param('id') id: string): Promise<UserCreateDataResponse> {
+    return this.usersService.findByID(id);
+  }
+
+  @Patch(':id')
+  @UseGuards(AuthGuard('jwt'))
+  @SuccessResponseDecorator({
+    type: UserCreateDataResponse,
+    summary: 'Atualiza um usuário pelo ID',
+  })
+  @ErrorResponseDecorator(
+    HttpStatus.BAD_REQUEST,
+    'Bad Request: Erro ao atualizar o usuário',
+  )
+  updateUser(
+    @Param('id') id: string,
+    @Body() dto: Partial<UserUpdatePayloadRequest>,
+  ): Promise<UserCreateDataResponse> {
+    dto.id = id;
+    return this.usersService.updateUser({
+      ...dto,
+      id,
+    } as UserUpdatePayloadRequest);
   }
 }

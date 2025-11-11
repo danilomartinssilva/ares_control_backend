@@ -17,9 +17,25 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "apply-migrations": "prisma migrate deploy",
+    "generate-prisma": "prisma generate",
+    "apply-seeds": "prisma db seed",
+    "prisma-init": "yarn apply-migrations && yarn generate-prisma && yarn apply-seeds",
+    "type-check": "tsc --noEmit",
+    "db:new": "prisma migrate dev --create-only",
+    "db:apply": "prisma migrate deploy",
+    "db:generate": "prisma generate",
+    "db:seed": "prisma db seed",
+    "db:status": "prisma migrate status",
+    "db:reset": "prisma migrate reset --force",
+    "db:studio": "prisma studio"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^10.1.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
@@ -38,7 +54,8 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "tsx": "^4.20.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -60,7 +77,7 @@
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
-    "ts-loader": "^9.5.2",
+    "ts-loader": "^9.5.4",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",

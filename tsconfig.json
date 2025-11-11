@@ -20,7 +20,6 @@
     "incremental": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-
     "strictBindCallApply": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
@@ -33,6 +32,7 @@
     "noPropertyAccessFromIndexSignature": true,
     "exactOptionalPropertyTypes": false,
     "strictNullChecks": false,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    
   }
 }

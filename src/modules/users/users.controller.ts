@@ -9,7 +9,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import {
   UserCreateDataResponse,
@@ -44,6 +44,7 @@ export class UsersController {
 
   @Get()
   @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
   @SuccessResponseDecorator({
     type: UserCreateDataResponse,
     isArray: true,
@@ -58,6 +59,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @SuccessResponseDecorator({
     type: UserCreateDataResponse,
@@ -72,6 +74,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @SuccessResponseDecorator({
     type: UserCreateDataResponse,
@@ -87,6 +90,7 @@ export class UsersController {
 
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
   @SuccessResponseDecorator({
     type: UserCreateDataResponse,
     summary: 'Atualiza um usuário pelo ID',

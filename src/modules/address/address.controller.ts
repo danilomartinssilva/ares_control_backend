@@ -9,7 +9,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AddressService } from './address.service';
 import { AddressCreatePayloadRequest } from 'src/dto/address/address-create.payload.request';
 import {
@@ -22,6 +22,7 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('address')
 @ApiTags('Gerenciamento de Endereços')
+@ApiBearerAuth()
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
   @UseGuards(AuthGuard('jwt'))

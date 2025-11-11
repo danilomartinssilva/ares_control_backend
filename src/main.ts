@@ -26,6 +26,7 @@ async function bootstrap() {
     .setTitle('Ares API')
     .setDescription('The Ares API description')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

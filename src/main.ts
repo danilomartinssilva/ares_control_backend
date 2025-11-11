@@ -14,9 +14,12 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: 'http://localhost:4200',
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
+  });
+  app.enableCors({
+    origin: '*',
   });
   app.useGlobalFilters(new PrismaExceptionFilter(app.getHttpAdapter()));
   const config = new DocumentBuilder()

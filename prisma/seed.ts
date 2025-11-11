@@ -19,21 +19,14 @@ function generateValidPassword(): string {
   ]);
   const digits = faker.string.numeric(1);
 
-  // O restante dos 8 a 12 caracteres
   const remainingLength = faker.number.int({ min: 4, max: 8 });
   const remainingChars = faker.string.alphanumeric(remainingLength);
 
-  // Combina e embaralha todos os caracteres para garantir o comprimento e as regras
   const characters = lower + upper + special + digits + remainingChars;
 
-  // Garante que o comprimento seja no máximo 12 e embaralha
   return faker.helpers.shuffle(characters.split('')).join('').substring(0, 12);
 }
 
-/**
- * Gera um objeto de usuário que está em conformidade com o UserCreatePayloadRequest.
- * @returns Um objeto para criação de usuário no Prisma.
- */
 function generateUserData() {
   const name = faker.person.fullName();
   const firstName = name.split(' ')[0];
@@ -77,6 +70,17 @@ function generateAddressData(userId: string, index: number) {
 async function main() {
   console.log('Iniciando o processo de seeding...');
 
+  const firstUser = await prisma.user.findFirst();
+
+  if (firstUser) {
+    console.log('-------------------------------------------------------');
+    console.log(
+      '⚠️ Dados de seed já existem no banco. Abortando o processo de seeding.',
+    );
+    console.log('-------------------------------------------------------');
+    return; // Sai da função sem fazer nada
+  }
+
   // 1. Limpeza dos dados existentes (Opcional, mas recomendado para seeds)
   await prisma.address.deleteMany();
   await prisma.user.deleteMany();
@@ -91,11 +95,6 @@ async function main() {
   for (let i = 0; i < USERS_COUNT; i++) {
     const userData = generateUserData();
 
-    // ⚠️ ATENÇÃO: Se você estiver usando bcrypt ou outra função de HASH,
-    // você deve aplicar o hash à senha AQUI antes de salvar,
-    // ou garantir que seu código de criação de usuário no NestJS faz isso.
-    // Para fins de SEED, estamos salvando a string gerada.
-
     usersToCreate.push(
       prisma.user.create({
         data: {
@@ -108,7 +107,6 @@ async function main() {
   const createdUsers = await prisma.$transaction(usersToCreate);
   console.log('Usuários criados com sucesso.');
 
-  // 3. Geração e Criação dos Endereços
   const addressesToCreate = [];
 
   console.log(`Criando ${ADDRESSES_PER_USER} endereços para cada usuário...`);

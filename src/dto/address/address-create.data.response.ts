@@ -33,14 +33,12 @@ export class AddressCreateDataResponse {
   @ApiProperty({
     description: 'Address alias',
     example: 'Home',
-    required: false,
   })
-  alias?: string;
+  alias: string;
 
   @ApiProperty({
     description: 'Set as default address',
     example: true,
-    required: false,
   })
-  defaultAddress?: boolean;
+  defaultAddress: boolean;
 }

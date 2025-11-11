@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { AddressCreatePayloadRequest } from 'src/dto/address/address-create.payload.request';
+import { AddressSetDefaultPayloadRequest } from 'src/dto/address/address-set-default.payload.request';
 import { AddressUpdatePayloadRequest } from 'src/dto/address/address-update.payload.request';
 
 @Injectable()
@@ -43,5 +44,35 @@ export class AddressService {
       data: dto,
     });
     return address;
+  }
+
+  async setDefaultAddress(dto: AddressSetDefaultPayloadRequest) {
+    const findAddress = await this.prismaService.address.findUnique({
+      where: { id: dto.addressId, userId: dto.userId },
+    });
+    if (!findAddress) {
+      throw new Error('Address not found');
+    }
+    if (findAddress.defaultAddress) {
+      return findAddress;
+    }
+
+    const [, updatedAddress] = await this.prismaService.$transaction([
+      this.prismaService.address.updateMany({
+        where: {
+          userId: findAddress.userId,
+          defaultAddress: true,
+        },
+        data: {
+          defaultAddress: false,
+        },
+      }),
+      this.prismaService.address.update({
+        where: { id: dto.addressId, userId: dto.userId },
+        data: { defaultAddress: true },
+      }),
+    ]);
+
+    return updatedAddress;
   }
 }

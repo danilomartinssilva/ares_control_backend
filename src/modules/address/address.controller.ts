@@ -1,9 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
+  Get,
   HttpStatus,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -24,7 +27,7 @@ export class AddressController {
   @UseGuards(AuthGuard('jwt'))
   @Post()
   @SuccessResponseDecorator({
-    type: Object,
+    type: AddressCreateDataResponse,
     summary: 'Criação de um novo endereço',
   })
   @ErrorResponseDecorator(
@@ -54,7 +57,7 @@ export class AddressController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('user/:userId')
+  @Get('user/:userId')
   @SuccessResponseDecorator({
     type: AddressCreateDataResponse,
     isArray: true,
@@ -69,9 +72,8 @@ export class AddressController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Post(':id')
+  @Delete(':id')
   @SuccessResponseDecorator({
-    type: Object,
     summary: 'Remove um endereço existente',
   })
   @ErrorResponseDecorator(
@@ -80,5 +82,22 @@ export class AddressController {
   )
   async deleteAddress(@Param('id') id: string) {
     return this.addressService.deleteAddress(id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put('set-default/:addressId/user/:userId')
+  @SuccessResponseDecorator({
+    type: AddressCreateDataResponse,
+    summary: 'Define um endereço como padrão',
+  })
+  @ErrorResponseDecorator(
+    HttpStatus.BAD_REQUEST,
+    'Bad Request: Erro ao definir o endereço como padrão',
+  )
+  async setDefaultAddress(
+    @Param('addressId') addressId: string,
+    @Param('userId') userId: string,
+  ) {
+    return this.addressService.setDefaultAddress({ addressId, userId });
   }
 }

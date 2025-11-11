@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsPhoneNumber, IsUUID } from 'class-validator';
+import { AddressCreateDataResponse } from '../address/address-create.data.response';
 
 export class UserCreateDataResponse {
   @ApiProperty({
@@ -24,4 +25,11 @@ export class UserCreateDataResponse {
   })
   @IsPhoneNumber()
   phone: string;
+
+  @ApiProperty({
+    description: 'Addresses associated with the user',
+    type: [AddressCreateDataResponse],
+    isArray: true,
+  })
+  addresses: AddressCreateDataResponse[];
 }

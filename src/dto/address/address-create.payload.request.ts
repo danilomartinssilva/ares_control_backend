@@ -14,7 +14,12 @@ export class AddressCreatePayloadRequest {
   @IsNotEmpty()
   state: string;
 
-  @ApiProperty({ description: 'Postal code', example: '62704' })
+  @ApiProperty({
+    description: 'Postal code',
+    example: '62704',
+    minLength: 5,
+    maxLength: 10,
+  })
   @IsNotEmpty()
   zipCode: string;
 
@@ -33,14 +38,14 @@ export class AddressCreatePayloadRequest {
   @ApiProperty({
     description: 'Address alias',
     example: 'Home',
-    required: false,
   })
-  alias?: string;
+  @IsNotEmpty()
+  alias: string;
 
   @ApiProperty({
     description: 'Set as default address',
     example: true,
-    required: false,
   })
-  defaultAddress?: boolean;
+  @IsNotEmpty()
+  defaultAddress: boolean;
 }

@@ -14,7 +14,10 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: '*',
+    origin: [
+      'https://ares-control-frontend.onrender.com',
+      'http://localhost:4200',
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
